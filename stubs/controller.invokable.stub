@@ -1,0 +1,39 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class {{ class }} extends Controller
+{
+    public function __invoke(Request $request)
+    {
+        //
+    }
+
+     use ErrorMessages;
+
+        public function create(ModalityCreateRequest $request)
+        {
+            $register = $this->strategy();
+
+            if (is_a($register, '\Exception')) {
+                return $this->errorResponse($register);
+            }
+
+            return response()->json($register, Response::HTTP_CREATED);
+        }
+
+
+        public function update(ModalityUpdateRequest $request, $id)
+        {
+            $register = $this->strategy(['id' => $id]);
+
+            if (is_a($register, '\Exception')) {
+                return $this->errorResponse($register);
+            }
+
+            return response()->json($register, Response::HTTP_OK);
+        }
+}

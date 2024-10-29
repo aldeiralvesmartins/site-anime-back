@@ -1,0 +1,36 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use App\Traits\ErrorMessages;
+use App\Http\Requests\Modality\{{{ class }}CreateRequest, {{ class }}UpdateRequest};
+
+class {{ class }} extends Controller
+{
+    use ErrorMessages;
+
+    public function create({{ class }}CreateRequest $request)
+    {
+        $register = $this->strategy();
+
+        if (is_a($register, '\Exception')) {
+            return $this->errorResponse($register);
+        }
+
+        return response()->json($register, Response::HTTP_CREATED);
+    }
+
+
+    public function update({{ class }}CreateRequest $request, $id)
+    {
+        $register = $this->strategy(['id' => $id]);
+
+        if (is_a($register, '\Exception')) {
+            return $this->errorResponse($register);
+        }
+
+        return response()->json($register, Response::HTTP_OK);
+    }
+}
