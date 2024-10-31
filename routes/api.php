@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EpisodioController;
 use App\Http\Controllers\SerieController;
+use App\Models\Category;
 use App\Models\Episode;
 use App\Models\Series;
 use App\Models\Url;
@@ -44,7 +45,8 @@ Route::prefix('episodio')->group(function () {
 });
 
 Route::get('/out', function () {
-    $series = Series::all()->take(2);
+    set_time_limit(120);
+    $series = Series::where('id', '>=', 3451)->get();
     $dataSerie = [];
 
     foreach ($series as $index => $value) {
@@ -52,7 +54,11 @@ Route::get('/out', function () {
         for ($i = 1; $i < 100; $i++) {
             $parts = explode('/', $path);
             $filename = end($parts);
-            $animeTitle = str_replace('-large.webp', '', $filename);
+   
+     
+            $animeTitle = strtolower(str_replace(['-large', '.webp', '.jpg'], '', pathinfo($filename, PATHINFO_FILENAME)));
+
+
             $urlImage = "https://animefire.plus/img/video/$animeTitle/$i.webp";
             $url = "https://animefire.plus/video/$animeTitle/$i";
 
@@ -98,16 +104,19 @@ Route::get('/ser5555ies', function () {
     if ($animes) {
         try {
             foreach ($animes as $anime) {
-                // usleep(300000); 1088
+
                 $response = $client->request('GET', $anime->url);
                 $html = $response->getBody()->getContents();
                 $crawler = new Crawler($html);
 
                 // Extrair a sinopse
-                $sinopse = $crawler->filter('.spanAnimeInfo')->text();
-
+                $sinopse = $crawler->filter('#body-content .divSinopse .spanAnimeInfo')->text();
+                $tralerSrc = $crawler->filter('#iframe-trailer iframe')->attr('data-src');
+                if (empty($tralerSrc)) {
+                    $tralerSrc = $crawler->filter('#iframe-trailer iframe')->attr('data-src');
+                }
                 // Coletar dados para cada anime
-                $crawler->filter('.divDivAnimeInfo')->each(function (Crawler $node) use ($anime, &$data, $sinopse) {
+                $crawler->filter('.divDivAnimeInfo')->each(function (Crawler $node) use ($anime, &$data, $sinopse, $tralerSrc) {
                     $title = $node->filter('.div_anime_names')->count() ?
                         $node->filter('.div_anime_names')->html() : 'Título não encontrado';
 
@@ -156,26 +165,29 @@ Route::get('/ser5555ies', function () {
                     // Votos
                     $votos = $node->filter('#anime_votos')->count() ?
                         $node->filter('#anime_votos')->text() : 'Votos não encontrados';
-
-                    // Cria a série
-                    $out = [
+                       
+                    
+                        // Cria a série
+                        Series::create([
                         'title' => $title,
-                        'imgSrc' => $imgSrc,
+                        'img_src' => $imgSrc,
                         'score' => $scoreNumeric,
                         'votos' => $votos,
-                        'subCategoria' => implode(', ', $subCategoria),
+                        'sub_categoria' => implode(', ', $subCategoria),
                         'temporada' => $temporada,
                         'estudios' => $estudios,
                         'audio' => $audio,
                         'episodios' => $episodios,
-                        'statusAnime' => $statusAnime,
-                        'diaLancamento' => $diaLancamento,
+                        'status_anime' => $statusAnime,
+                        'dia_lancamento' => $diaLancamento,
                         'ano' => $ano,
-                        'sinopse' => $sinopse // Adiciona a sinopse aqui
-                    ];
-                    debug($out);
+                        'sinopse' => $sinopse,                     
+                        'trailer_src' => $tralerSrc
+
+                    ]);
+                   
                     // Adiciona o anime ao array de dados
-                    $data[] = $out;
+                   
                 });
             }
         } catch (\Exception $e) {

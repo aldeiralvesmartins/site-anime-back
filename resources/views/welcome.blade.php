@@ -1,97 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Laravel</title>
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-    <!-- Styles -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FODA - SE</title>
     <style>
-        html, body {
-            background-color: #282F40;
-            color: #fff;
-            font-family: 'Raleway';
-            font-weight: 100;
-            height: 100vh;
+        /* Reset básico */
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
+        /* Estilos da tela */
+        body, html {
+            height: 100%;
             display: flex;
+            align-items: center;
             justify-content: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #141E30, #243B55);
+            color: #fff;
         }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
+        /* Container para o texto */
+        .container {
             text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links > a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
+        /* Estilo do texto */
+        h1 {
+            font-size: 3em;
+            font-weight: bold;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            color: #FFD700;
         }
     </style>
 </head>
 <body>
-<div class="flex-center position-ref full-height">
-
-    @if (Route::has('login') && Auth::check())
-        <div class="top-right links">
-            <a href="{{ url('/home') }}">Dashboard</a>
-        </div>
-    @elseif (Route::has('login') && !Auth::check())
-        <div class="top-right links">
-            <a href="{{ url('/login') }}">Login</a>
-            <a href="{{ url('/register') }}">Register</a>
-        </div>
-    @endif
-
-    <div class="content">
-        <div class="title m-b-md">
-            <img src="cenfit-dojo.png">
-        </div>
-
-        <div class="links">
-            <p> <?php echo (date("d/m/Y - H:i:s")) ?></p>
-            {{--            <a href="https://laracasts.com">Laracasts</a>--}}
-            {{--            <a href="https://codecasts.com.br">CODECASTS [pt-BR]</a>--}}
-            {{--            <a href="https://laravel-news.com">News</a>--}}
-            {{--            <a href="https://forge.laravel.com">Forge</a>--}}
-            {{--            <a href="https://github.com/codecasts/laravel">GitHub</a>--}}
-        </div>
+    <div class="container">
+        <h1>FODA - SE - {API}</h1>
     </div>
-</div>
 </body>
 </html>

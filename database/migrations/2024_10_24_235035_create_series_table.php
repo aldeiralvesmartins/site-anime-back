@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('series', function (Blueprint $table) {
             $table->id(); // Primary ID
             $table->string('title', 1000);// Anime title
-            $table->string('img_src')->nullable(); // Image URL
+            $table->string('img_src')->nullable(); // Image URL 
+            $table->string('trailer_src')->nullable(); // Image URL
             $table->decimal('score', 3, 2)->nullable(); // Anime score (max 9.99)
             $table->string('votos')->nullable(); // Number of votes
             $table->string('sub_categoria')->nullable(); // Subcategories as a string
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->string('status_anime')->nullable(); // Anime status
             $table->string('dia_lancamento')->nullable(); // Release day
             $table->string('ano')->nullable(); // Release year
+            $table->text('sinopse')->nullable();
             $table->timestamps(); // Created_at and updated_at fields
         });
         

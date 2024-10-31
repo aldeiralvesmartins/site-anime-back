@@ -21,7 +21,9 @@ class Series extends Model
         'episodios',
         'status_anime',
         'dia_lancamento',
-        'ano'
+        'ano',
+        'sinopse',
+        'trailer_src'
     ];
 
     

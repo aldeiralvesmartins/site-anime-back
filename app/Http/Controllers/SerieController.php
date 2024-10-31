@@ -22,7 +22,7 @@ class SerieController extends Controller
     public function lancamento(Request $request)
     {
         $page = $request->input('page', 1); // Pega a página atual, padrão é 1
-        $limit = 20; // Defina o limite de itens por página
+        $limit = 24; // Defina o limite de itens por página
 
         $series = Series::orderBy('ano', 'asc')
             ->skip(($page - 1) * $limit) // Pular os itens das páginas anteriores
@@ -37,11 +37,23 @@ class SerieController extends Controller
     public function buscaAnime(Request $request)
     {
         $searchString = $request->input('nome');
+        $limt = $request->input('limit');
+        $searchString = preg_replace('/[^a-zA-Z\s]+/', '', $searchString);
+        $searchString = strtolower(trim($searchString));
+        $searchTerms = explode(' ', $searchString);
         $query = Series::query();
-        if (!empty($searchString)) {
-            $query->whereRaw('LOWER(title) LIKE ?', ['%' . strtolower($searchString) . '%']);
+        if (!empty($searchTerms)) {
+            foreach ($searchTerms as $term) {
+                $query->orWhereRaw('LOWER(title) LIKE ?', ['%' . $term . '%']);
+            }
         }
-        $series = $query->take(3)->get();
+        // if (!empty($limt)){
+            $series = $query->get();
+        // } else {
+        //     $series = $query->take(3)->get();
+        // }
+        
         return response()->json($series);
     }
+    
 }

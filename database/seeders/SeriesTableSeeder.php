@@ -38,6 +38,8 @@ class SeriesTableSeeder extends Seeder
                    'status_anime' => $series['status_anime'],
                    'dia_lancamento' => $series['dia_lancamento'],
                    'ano' => $series['ano'],
+                   'sinopse' => $series['sinopse'],
+                   'trailer_src' => $series['trailer_src'],
                ]);
            }
         }

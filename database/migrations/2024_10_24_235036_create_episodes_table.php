@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('episode_number'); // Número do episódio dentro da temporada
             $table->foreignId('series_id')->constrained()->onDelete('cascade'); 
             $table->string('url_image'); // Título do episódio
-            $table->string('url_video', 1000); // Título do episódio
+            $table->text('url_video'); // Título do episódio
             $table->timestamps();
         });
     }
