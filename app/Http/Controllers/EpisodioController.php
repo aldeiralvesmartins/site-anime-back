@@ -29,6 +29,8 @@ class EpisodioController extends Controller
     public function buscaEpisodio($id)
     {
         $episodio = Episode::find($id);
-        return response()->json($episodio); // Proxies.
+        $series = Series::find($episodio->series_id);
+        $episodio->sinopse = $series->sinopse; 
+        return response()->json($episodio); 
     }
 }

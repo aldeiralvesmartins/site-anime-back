@@ -15,7 +15,7 @@ class SerieController extends Controller
 
     public function recomendado()
     {
-        $series = Series::orderBy('score', 'asc')->orderBy('votos', 'asc')->inRandomOrder()->take(10)->get();
+        $series = Series::orderBy('score', 'asc')->orderBy('votos', 'asc')->inRandomOrder()->take(17)->get();
         return response()->json($series);
     }
 
@@ -24,7 +24,7 @@ class SerieController extends Controller
         $page = $request->input('page', 1); // Pega a página atual, padrão é 1
         $limit = 24; // Defina o limite de itens por página
 
-        $series = Series::orderBy('ano', 'asc')
+        $series = Series::orderBy('ano', 'desc')
             ->skip(($page - 1) * $limit) // Pular os itens das páginas anteriores
             ->take($limit) // Pega o número de itens definido pelo limite
             ->get()
@@ -48,9 +48,9 @@ class SerieController extends Controller
             }
         }
         // if (!empty($limt)){
-            $series = $query->get();
+            // $series = $query->get();
         // } else {
-        //     $series = $query->take(3)->get();
+            $series = $query->take(10)->get();
         // }
         
         return response()->json($series);
